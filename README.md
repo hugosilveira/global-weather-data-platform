@@ -16,11 +16,12 @@ Production-ready weather ETL pipeline focused on reliability, data quality, and 
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ### Output datasets
 
@@ -96,11 +97,12 @@ Pipeline ETL de clima pronto para uso profissional, com foco em confiabilidade, 
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ### Conjuntos de saida
 
@@ -166,11 +168,12 @@ Pipeline ETL meteo pret pour la production, avec un focus sur la fiabilite, la q
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ### Jeux de donnees de sortie
 
@@ -217,3 +220,4 @@ Editez `config/config.yaml`:
   `analytics.weather_facts`
 - Le chemin est configurable via `config/config.yaml` (`paths.duckdb_path`).
 - Compatible avec Power BI, Tableau, Metabase, DBeaver, Grafana.
+

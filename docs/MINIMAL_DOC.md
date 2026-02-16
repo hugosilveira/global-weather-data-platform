@@ -33,11 +33,12 @@ Professional weather ETL designed for stable ingestion, validated transformation
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ## Commands
 
@@ -97,11 +98,12 @@ ETL de clima para uso profissional, com ingestao estavel, transformacao validada
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ## Comandos
 
@@ -161,11 +163,12 @@ ETL meteo pour usage professionnel, avec ingestion stable, transformation valide
 
 - Sao Paulo (SP)
 - Rio de Janeiro (RJ)
-- Brasilia (DF)
-- Belo Horizonte (MG)
-- Salvador (BA)
-- Curitiba (PR)
 - Foz do Iguacu (PR)
+- Quebec (CA-QC)
+- Orlando (US-FL)
+- Porto (PT)
+- Valencia (ES)
+- Brussels (BE)
 
 ## Commandes
 
@@ -189,3 +192,4 @@ pytest -q
 - Table:
   `analytics.weather_facts`
 - Configurable via `config/config.yaml` (`paths.duckdb_path`).
+

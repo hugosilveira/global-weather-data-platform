@@ -10,26 +10,30 @@ api:
       state: "RJ"
       latitude: -22.9068
       longitude: -43.1729
-    - city: "Brasilia"
-      state: "DF"
-      latitude: -15.7939
-      longitude: -47.8828
-    - city: "Belo Horizonte"
-      state: "MG"
-      latitude: -19.9167
-      longitude: -43.9345
-    - city: "Salvador"
-      state: "BA"
-      latitude: -12.9777
-      longitude: -38.5016
-    - city: "Curitiba"
-      state: "PR"
-      latitude: -25.4284
-      longitude: -49.2733
     - city: "Foz do Iguacu"
       state: "PR"
       latitude: -25.5478
       longitude: -54.5882
+    - city: "Quebec"
+      state: "CA-QC"
+      latitude: 46.8139
+      longitude: -71.2080
+    - city: "Orlando"
+      state: "US-FL"
+      latitude: 28.5383
+      longitude: -81.3792
+    - city: "Porto"
+      state: "PT"
+      latitude: 41.1579
+      longitude: -8.6291
+    - city: "Valencia"
+      state: "ES"
+      latitude: 39.4699
+      longitude: -0.3763
+    - city: "Brussels"
+      state: "BE"
+      latitude: 50.8503
+      longitude: 4.3517
   params:
     - temperature_2m
     - precipitation
