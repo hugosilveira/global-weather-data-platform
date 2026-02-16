@@ -1,4 +1,5 @@
 ﻿import logging
+import os
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any, Dict, List
@@ -55,8 +56,7 @@ def send_alert(webhook_url: str, message: str) -> None:
         logging.getLogger(__name__).error("Failed to send alert webhook: %s", exc)
 
 
-@task(name="extract_weather")
-def extract_weather(config: Dict[str, Any]) -> List[Dict[str, Any]]:
+def extract_weather_data(config: Dict[str, Any]) -> List[Dict[str, Any]]:
     api_cfg = config["api"]
     locations = api_cfg.get("locations")
 
@@ -96,8 +96,7 @@ def extract_weather(config: Dict[str, Any]) -> List[Dict[str, Any]]:
     return payloads
 
 
-@task(name="transform_weather")
-def transform_weather(raw_payloads: List[Dict[str, Any]]) -> pl.DataFrame:
+def transform_weather_data(raw_payloads: List[Dict[str, Any]]) -> pl.DataFrame:
     transformer = WeatherTransformer()
     transformed_frames: List[pl.DataFrame] = []
 
@@ -115,15 +114,13 @@ def transform_weather(raw_payloads: List[Dict[str, Any]]) -> pl.DataFrame:
     return pl.concat(transformed_frames, how="vertical_relaxed")
 
 
-@task(name="validate_weather")
-def validate_weather(df: pl.DataFrame, config: Dict[str, Any]):
+def validate_weather_data(df: pl.DataFrame, config: Dict[str, Any]) -> bool:
     validator = DataQualityValidator(config["quality"])
     validator.validate_or_raise(df)
     return True
 
 
-@task(name="load_weather")
-def load_weather(raw_payloads: List[Dict[str, Any]], df: pl.DataFrame, config: Dict[str, Any]) -> Dict[str, bool]:
+def load_weather_data(raw_payloads: List[Dict[str, Any]], df: pl.DataFrame, config: Dict[str, Any]) -> Dict[str, bool]:
     loader = WeatherLoader(
         raw_path=config["paths"]["raw_dir"],
         processed_path=config["paths"]["processed_dir"],
@@ -158,6 +155,26 @@ def load_weather(raw_payloads: List[Dict[str, Any]], df: pl.DataFrame, config: D
     return status
 
 
+@task(name="extract_weather")
+def extract_weather(config: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return extract_weather_data(config)
+
+
+@task(name="transform_weather")
+def transform_weather(raw_payloads: List[Dict[str, Any]]) -> pl.DataFrame:
+    return transform_weather_data(raw_payloads)
+
+
+@task(name="validate_weather")
+def validate_weather(df: pl.DataFrame, config: Dict[str, Any]) -> bool:
+    return validate_weather_data(df, config)
+
+
+@task(name="load_weather")
+def load_weather(raw_payloads: List[Dict[str, Any]], df: pl.DataFrame, config: Dict[str, Any]) -> Dict[str, bool]:
+    return load_weather_data(raw_payloads, df, config)
+
+
 @flow(name="weather-etl-pipeline", log_prints=False)
 def run_pipeline(config_path: str = "config/config.yaml") -> bool:
     config = load_config(config_path)
@@ -185,6 +202,24 @@ def run_pipeline(config_path: str = "config/config.yaml") -> bool:
         return False
 
 
+def run_pipeline_local(config_path: str = "config/config.yaml") -> bool:
+    config = load_config(config_path)
+    logger = logging.getLogger(__name__)
+
+    try:
+        logger.info("Starting local pipeline execution")
+        raw_payloads = extract_weather_data(config)
+        transformed_df = transform_weather_data(raw_payloads)
+        validate_weather_data(transformed_df, config)
+        load_status = load_weather_data(raw_payloads, transformed_df, config)
+        logger.info("Local pipeline finished successfully. load_status=%s", load_status)
+        return True
+    except Exception as exc:
+        logger.error("Local pipeline failed: %s", exc, exc_info=True)
+        send_alert(config.get("alerts", {}).get("webhook_url", ""), f"weather-etl-local failed: {exc}")
+        return False
+
+
 if __name__ == "__main__":
     app_config = load_config()
     setup_logging(
@@ -192,5 +227,6 @@ if __name__ == "__main__":
         log_format=app_config["logging"]["format"],
     )
 
-    successful = run_pipeline()
+    use_prefect = os.getenv("USE_PREFECT_FLOW", "0").lower() in {"1", "true", "yes"}
+    successful = run_pipeline() if use_prefect else run_pipeline_local()
     raise SystemExit(0 if successful else 1)

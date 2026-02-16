@@ -56,10 +56,14 @@ pip install -r requirements.txt
 python main.py
 ```
 
+Note:
+- `python main.py` runs in local mode (no Prefect API server required).
+- To force Prefect flow mode: `USE_PREFECT_FLOW=1 python main.py`
+
 ### Test
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
 
 ### Core commands (extract vs analyze)
@@ -280,4 +284,5 @@ python query.py rain --from 2026-02-01 --to 2026-02-28
 python query.py city --name "Quebec" --limit 10
 python query.py sql --query "SELECT COUNT(*) AS total_rows FROM analytics.weather_facts"
 ```
+
 

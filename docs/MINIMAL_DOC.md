@@ -45,8 +45,11 @@ Professional weather ETL designed for stable ingestion, validated transformation
 ```bash
 pip install -r requirements.txt
 python main.py
-pytest -q
+python -m pytest -q
 ```
+
+- `python main.py` roda em modo local (sem precisar subir API server do Prefect).
+- To force Prefect flow mode: `USE_PREFECT_FLOW=1 python main.py`
 
 ```bash
 # Extract data
@@ -125,8 +128,11 @@ ETL de clima para uso profissional, com ingestao estavel, transformacao validada
 ```bash
 pip install -r requirements.txt
 python main.py
-pytest -q
+python -m pytest -q
 ```
+
+- `python main.py` roda em modo local (sem precisar subir API server do Prefect).
+- Para forcar modo Prefect: `USE_PREFECT_FLOW=1 python main.py`
 
 ```bash
 # Extrair dados
@@ -205,8 +211,11 @@ ETL meteo pour usage professionnel, avec ingestion stable, transformation valide
 ```bash
 pip install -r requirements.txt
 python main.py
-pytest -q
+python -m pytest -q
 ```
+
+- `python main.py` s'execute en mode local (sans API server Prefect).
+- Pour forcer le mode Prefect: `USE_PREFECT_FLOW=1 python main.py`
 
 ```bash
 # Extraire les donnees
@@ -237,4 +246,5 @@ python query.py city --name "Quebec" --limit 10
 - Table:
   `analytics.weather_facts`
 - Configurable via `config/config.yaml` (`paths.duckdb_path`).
+
 
