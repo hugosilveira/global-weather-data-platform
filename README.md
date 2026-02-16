@@ -62,6 +62,26 @@ python main.py
 pytest -q
 ```
 
+### Core commands (extract vs analyze)
+
+```bash
+# Extract data (run ETL ingestion and load)
+python main.py
+
+# Analyze collected data (quick query)
+python query.py latest --limit 20
+```
+
+### Quick analysis (CLI)
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
+python query.py sql --query "SELECT COUNT(*) AS total_rows FROM analytics.weather_facts"
+```
+
 ### DataViz integration
 
 1. CSV (recommended for quick BI integration)
@@ -150,6 +170,26 @@ Edite `config/config.yaml`:
 - O caminho pode ser alterado em `config/config.yaml` (`paths.duckdb_path`).
 - Compativel com Power BI, Tableau, Metabase, DBeaver, Grafana.
 
+### Comandos principais (extrair vs analisar)
+
+```bash
+# Extrair dados (rodar ingestao ETL e carga)
+python main.py
+
+# Analisar dados coletados (consulta rapida)
+python query.py latest --limit 20
+```
+
+### Analise rapida (CLI)
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
+python query.py sql --query "SELECT COUNT(*) AS total_rows FROM analytics.weather_facts"
+```
+
 ---
 
 ## FR
@@ -220,4 +260,24 @@ Editez `config/config.yaml`:
   `analytics.weather_facts`
 - Le chemin est configurable via `config/config.yaml` (`paths.duckdb_path`).
 - Compatible avec Power BI, Tableau, Metabase, DBeaver, Grafana.
+
+### Commandes principales (extraire vs analyser)
+
+```bash
+# Extraire les donnees (execution ETL + chargement)
+python main.py
+
+# Analyser les donnees collectees (requete rapide)
+python query.py latest --limit 20
+```
+
+### Analyse rapide (CLI)
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
+python query.py sql --query "SELECT COUNT(*) AS total_rows FROM analytics.weather_facts"
+```
 

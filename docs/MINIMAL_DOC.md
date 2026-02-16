@@ -48,6 +48,21 @@ python main.py
 pytest -q
 ```
 
+```bash
+# Extract data
+python main.py
+
+# Analyze collected data
+python query.py latest --limit 20
+```
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
+```
+
 ## DataViz (Power BI, Tableau, others)
 
 1. CSV (recommended)
@@ -113,6 +128,21 @@ python main.py
 pytest -q
 ```
 
+```bash
+# Extrair dados
+python main.py
+
+# Analisar dados coletados
+python query.py latest --limit 20
+```
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
+```
+
 ## DataViz (Power BI, Tableau e outras)
 
 1. CSV (recomendado)
@@ -176,6 +206,21 @@ ETL meteo pour usage professionnel, avec ingestion stable, transformation valide
 pip install -r requirements.txt
 python main.py
 pytest -q
+```
+
+```bash
+# Extraire les donnees
+python main.py
+
+# Analyser les donnees collectees
+python query.py latest --limit 20
+```
+
+```bash
+python query.py latest --limit 20
+python query.py avg-temp --from 2026-02-01 --to 2026-02-28
+python query.py rain --from 2026-02-01 --to 2026-02-28
+python query.py city --name "Quebec" --limit 10
 ```
 
 ## DataViz (Power BI, Tableau et autres)
