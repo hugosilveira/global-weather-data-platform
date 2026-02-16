@@ -147,3 +147,73 @@ Edite `config/config.yaml`:
   `analytics.weather_facts`
 - O caminho pode ser alterado em `config/config.yaml` (`paths.duckdb_path`).
 - Compativel com Power BI, Tableau, Metabase, DBeaver, Grafana.
+
+---
+
+## FR
+
+Pipeline ETL meteo pret pour la production, avec un focus sur la fiabilite, la qualite des donnees et la consommation analytique.
+
+### Vue d'ensemble
+
+- Extrait la meteo actuelle depuis l'API Open-Meteo.
+- Applique une transformation typee avec Polars.
+- Execute des controles de qualite avant le chargement.
+- Stocke les sorties en Parquet, CSV et DuckDB.
+- Supporte l'evolution de schema dans l'historique et la table analytique.
+
+### Villes surveillees
+
+- Sao Paulo (SP)
+- Rio de Janeiro (RJ)
+- Brasilia (DF)
+- Belo Horizonte (MG)
+- Salvador (BA)
+- Curitiba (PR)
+- Foz do Iguacu (PR)
+
+### Jeux de donnees de sortie
+
+- JSON brut: `data/raw/*.json`
+- Parquet traite: `data/processed/weather/event_date=YYYY-MM-DD/*.parquet`
+- CSV traite: `data/processed/weather/event_date=YYYY-MM-DD/*.csv`
+- Parquet historique: `data/processed/weather/weather_historical.parquet`
+- CSV historique: `data/processed/weather/weather_historical.csv`
+- Table DuckDB: `analytics.weather_facts` dans `data/warehouse/weather.duckdb`
+
+### Stack
+
+- Python 3.11+
+- Prefect 3
+- Polars
+- DuckDB
+- Parquet / CSV
+- Tenacity
+
+### Configuration
+
+Editez `config/config.yaml`:
+- `api.locations`: liste des villes et coordonnees
+- `api.params`: variables meteo de l'API
+- `output`: formats et noms des historiques
+- `paths`: chemins de stockage
+- `quality`: regles de validation
+- `orchestration`: retries et planification
+- `alerts.webhook_url`: alerte optionnelle
+
+### Integration DataViz
+
+1. CSV (recommande pour integration rapide)
+- Fichier: `data/processed/weather/weather_historical.csv`
+- Chemin relatif standard:
+  `<project-root>/data/processed/weather/weather_historical.csv`
+- Le chemin est configurable via `config/config.yaml` (`paths.processed_dir` et `output.historical_filenames.csv`).
+- Compatible avec Power BI, Tableau, Excel, Qlik Sense, Apache Superset.
+
+2. DuckDB via ODBC/driver (recommande pour requetes scalables)
+- Fichier base:
+  `<project-root>/data/warehouse/weather.duckdb`
+- Table:
+  `analytics.weather_facts`
+- Le chemin est configurable via `config/config.yaml` (`paths.duckdb_path`).
+- Compatible avec Power BI, Tableau, Metabase, DBeaver, Grafana.

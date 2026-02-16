@@ -125,3 +125,67 @@ pytest -q
 - Tabela:
   `analytics.weather_facts`
 - Configuravel via `config/config.yaml` (`paths.duckdb_path`).
+
+---
+
+## FR
+
+## Objectif
+
+ETL meteo pour usage professionnel, avec ingestion stable, transformation validee et sorties pretes pour BI.
+
+## Flux de donnees
+
+1. `extract.py`
+- Appelle l'endpoint meteo actuel de Open-Meteo.
+- Utilise retry/backoff.
+- Genere un `extraction_id` deterministe.
+
+2. `transform.py`
+- Convertit chaque payload en ligne typee avec Polars.
+- Ajoute des champs metier: `location_city`, `location_state`, timestamps et metriques.
+
+3. `quality.py`
+- Valide le schema obligatoire.
+- Applique des controles de null/range.
+- Bloque les `extraction_id` dupliques dans le lot.
+
+4. `load.py`
+- Sauvegarde les fichiers JSON bruts.
+- Sauvegarde Parquet et CSV partitionnes (`event_date=YYYY-MM-DD`).
+- Maintient des historiques Parquet et CSV dedupliques.
+- Fait un upsert dans DuckDB `analytics.weather_facts`.
+- Supporte l'evolution de schema pour de nouvelles colonnes.
+
+## Localisations configurees
+
+- Sao Paulo (SP)
+- Rio de Janeiro (RJ)
+- Brasilia (DF)
+- Belo Horizonte (MG)
+- Salvador (BA)
+- Curitiba (PR)
+- Foz do Iguacu (PR)
+
+## Commandes
+
+```bash
+pip install -r requirements.txt
+python main.py
+pytest -q
+```
+
+## DataViz (Power BI, Tableau et autres)
+
+1. CSV (recommande)
+- Fichier: `data/processed/weather/weather_historical.csv`
+- Chemin relatif standard:
+  `<project-root>/data/processed/weather/weather_historical.csv`
+- Configurable via `config/config.yaml` (`paths.processed_dir` et `output.historical_filenames.csv`).
+
+2. DuckDB via ODBC/driver
+- Fichier base:
+  `<project-root>/data/warehouse/weather.duckdb`
+- Table:
+  `analytics.weather_facts`
+- Configurable via `config/config.yaml` (`paths.duckdb_path`).
