@@ -1,0 +1,44 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Virtual env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Local data outputs
+data/raw/*
+data/processed/*
+data/warehouse/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/warehouse/.gitkeep
+
+# Logs
+logs/*.log
+!logs/.gitkeep
+
+# Prefect local state
+.prefect/
+
+# Sensitive config
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+

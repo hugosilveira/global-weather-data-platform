@@ -1,0 +1,82 @@
+﻿# API settings
+api:
+  base_url: "https://api.open-meteo.com/v1/forecast"
+  locations:
+    - city: "Sao Paulo"
+      state: "SP"
+      latitude: -23.5505
+      longitude: -46.6333
+    - city: "Rio de Janeiro"
+      state: "RJ"
+      latitude: -22.9068
+      longitude: -43.1729
+    - city: "Brasilia"
+      state: "DF"
+      latitude: -15.7939
+      longitude: -47.8828
+    - city: "Belo Horizonte"
+      state: "MG"
+      latitude: -19.9167
+      longitude: -43.9345
+    - city: "Salvador"
+      state: "BA"
+      latitude: -12.9777
+      longitude: -38.5016
+    - city: "Curitiba"
+      state: "PR"
+      latitude: -25.4284
+      longitude: -49.2733
+    - city: "Foz do Iguacu"
+      state: "PR"
+      latitude: -25.5478
+      longitude: -54.5882
+  params:
+    - temperature_2m
+    - precipitation
+    - weather_code
+    - wind_speed_10m
+    - relative_humidity_2m
+  timeout_seconds: 15
+  max_retries: 3
+  retry_backoff_seconds: 1
+
+# Output settings
+output:
+  raw_format: json
+  processed_formats:
+    - parquet
+    - csv
+  historical_filenames:
+    parquet: "weather_historical.parquet"
+    csv: "weather_historical.csv"
+
+# Storage paths
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed/weather"
+  duckdb_path: "data/warehouse/weather.duckdb"
+
+# Quality checks
+quality:
+  temperature_min_c: -90
+  temperature_max_c: 60
+  humidity_min_pct: 0
+  humidity_max_pct: 100
+  precipitation_min_mm: 0
+  wind_speed_min_kmh: 0
+
+# Orchestration and alerts
+orchestration:
+  flow_name: "weather-etl-pipeline"
+  task_retries: 2
+  task_retry_delay_seconds: 5
+  schedule_cron: "0 * * * *"
+
+alerts:
+  webhook_url: ""
+
+# Logging settings
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
